@@ -3,6 +3,7 @@ import React, {useContext, useEffect} from 'react';
 import { appContext } from '../../Context/context';
 import { getAuth } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
+import AdminDashboard from "../Dashboard/AdminDashboard/AdminDashboard"
 
 
 export default function Home() {
@@ -16,18 +17,13 @@ export default function Home() {
     }, []);
 
 
-    const handleLogout = async() => {
-        await auth.signOut();
-    }
-
-
-    
+    // const handleLogout = async() => {
+    //     await auth.signOut();
+    // }
 
     return (
         <div>
-            <h1>Dashboard</h1>
-            <h2>Hey { state.user ? state.user.name: "User Logged out"}</h2>
-            <button onClick={handleLogout}>Logout</button>
+            <AdminDashboard />
         </div>
     )
 }

@@ -5,10 +5,14 @@ import { getAuth } from "firebase/auth";
 import { appContext } from "./Context/context";
 import { SET_USER } from "./Context/actions.type";
 import { reducer, initialState } from "./Context/reducer";
-import { app } from "./Config/firebase-config";
+import { app, db } from "./Config/firebase-config";
+import { useNavigate } from "react-router-dom";
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   let authentication = getAuth();
+
+  // setting db settings
+  db.settings({ timestampsInSnapshots: true });
 
   useEffect(() => {
     authentication.onAuthStateChanged((user) => {

@@ -1,9 +1,10 @@
 import "./App.css";
+import PageRoutes from "./Routes/PageRoutes";
 
 function App() {
   return (
     <div className="App">
-      <h1>Welcome to react app</h1>
+      <PageRoutes />
     </div>
   );
 }

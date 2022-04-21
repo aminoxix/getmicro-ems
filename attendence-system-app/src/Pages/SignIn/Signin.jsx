@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
-
 
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 
@@ -10,8 +9,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -58,7 +55,7 @@ export default function Signin() {
     setShowSnackBar(true);
   };
 
-  const handleCloseSnackBar = (event, reason) => {
+  const handleCloseSnackBar = (reason) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -72,9 +69,7 @@ export default function Signin() {
   const handleToggle = () => {
     setOpen(!open);
   };
-
   
-
   const handleSubmit = (event) => {
     event.preventDefault();
     handleToggle();
@@ -82,21 +77,15 @@ export default function Signin() {
     const data = new FormData(event.currentTarget);
     signInWithEmailAndPassword(authentication, data.get('email'), data.get('password'))
       .then((response) => {
-        console.log(response);
         closeBackDrop();
         setMessage("Signed in successfully");
         handleShowSnackBar();
         navigate('/dashboard')
-        sessionStorage.setItem('Auth Token', response._tokenResponse.refreshToken);
       }).catch((error) => {
         setMessage(`${error}`);
         closeBackDrop();
         handleShowSnackBar();
       })
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
   };
 
   const action = (

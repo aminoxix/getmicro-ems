@@ -2,13 +2,11 @@ import React from "react";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import ListSubheader from "@mui/material/ListSubheader";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PeopleIcon from "@mui/icons-material/People";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import LayersIcon from "@mui/icons-material/Layers";
-import AssignmentIcon from "@mui/icons-material/Assignment";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import GroupRemoveIcon from "@mui/icons-material/GroupRemove";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 export const mainListItems = (
   <React.Fragment>
@@ -20,27 +18,27 @@ export const mainListItems = (
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <GroupAddIcon />
       </ListItemIcon>
-      <ListItemText primary="Orders" />
+      <ListItemText primary="Add User" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
         <PeopleIcon />
       </ListItemIcon>
-      <ListItemText primary="Customers" />
+      <ListItemText primary="Update User" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <BarChartIcon />
+        <GroupRemoveIcon />
       </ListItemIcon>
-      <ListItemText primary="Reports" />
+      <ListItemText primary="Delete User" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <LayersIcon />
+        <LogoutIcon />
       </ListItemIcon>
-      <ListItemText primary="Integrations" />
+      <ListItemText primary="Logout" />
     </ListItemButton>
   </React.Fragment>
 );

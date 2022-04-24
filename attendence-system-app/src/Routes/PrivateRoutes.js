@@ -5,7 +5,5 @@ import { appContext } from "../Context/context";
 export default function PrivateRoutes() {
   const { state } = useContext(appContext);
 
-  console.log(state);
-
   return state.user ? <Outlet /> : <Navigate to="/" />;
 }

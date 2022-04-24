@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 
 
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
@@ -37,14 +37,15 @@ export default function Signin() {
   const { state } = useContext(appContext);
   
 
-  
 
   const authentication = getAuth();
   let navigate = useNavigate();
 
-  if (state.user) {
-    navigate("/dashboard");
-  }
+  
+  useEffect(() => {
+    document.title = "Signin";
+  }, []);
+
 
   const handleShowSnackBar = () => {
     setShowSnackBar(true);
@@ -95,14 +96,17 @@ export default function Signin() {
       </IconButton>
     </React.Fragment>
   );
-
   
 
-  useEffect(() => {
-      document.title = "Signin";
-  }, []);
-
-  
+  if (state.loading) {
+    return (
+        <CircularProgress color="inherit" />
+    )
+  }
+  else if (state.user) {
+    return <Navigate to="/dashboard" />  
+  }
+  else {
     return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -167,6 +171,8 @@ export default function Signin() {
         <CircularProgress color="inherit" />
       </Backdrop>
     </ThemeProvider>
-  );
+  ); 
+  }
+    
   
 }

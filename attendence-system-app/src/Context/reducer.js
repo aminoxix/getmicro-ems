@@ -1,7 +1,8 @@
-import { SET_USER } from "./actions.type";
+import { SET_USER, SET_LOADING } from "./actions.type";
 
 export const initialState = {
   user: null,
+  loading: true,
 };
 
 export const reducer = (state, action) => {
@@ -12,6 +13,12 @@ export const reducer = (state, action) => {
         user: action.payload
           ? { email: action.payload.email, name: action.payload.name }
           : null,
+      };
+
+    case SET_LOADING:
+      return {
+        ...state,
+        loading: action.payload,
       };
   }
 };

@@ -24,7 +24,6 @@ function App() {
           type: SET_USER,
           payload: null,
         });
-        navigate("/");
       } else {
         dispatch({
           type: SET_USER,

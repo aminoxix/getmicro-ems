@@ -6,15 +6,12 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home/Home";
 import Signin from "./Pages/SignIn/SignIn";
 import PrivateRoutes from "./Routes/PrivateRoutes";
-
-import { db } from "./Config/firebase-config";
 import Copyright from "./Components/Footer/Copyright";
 
 import AppContextProvider from "./Context/context";
+import { app } from "./Config/firebase-config";
 
 function App() {
-  // setting db settings
-  db.settings({ timestampsInSnapshots: true });
   return (
     <div className="App">
       <AppContextProvider>

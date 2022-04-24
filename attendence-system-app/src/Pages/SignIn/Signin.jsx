@@ -100,7 +100,7 @@ export default function Signin() {
 
   if (state.loading) {
     return (
-        <CircularProgress color="inherit" />
+        <CircularProgress style={{marginTop: "340px", marginLeft: "30px"}} color="primary" />
     )
   }
   else if (state.user) {

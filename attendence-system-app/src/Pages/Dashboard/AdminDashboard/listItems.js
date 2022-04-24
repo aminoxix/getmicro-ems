@@ -7,6 +7,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import GroupRemoveIcon from "@mui/icons-material/GroupRemove";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { getAuth } from "firebase/auth";
 
 export const mainListItems = (
   <React.Fragment>
@@ -34,7 +35,11 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Delete User" />
     </ListItemButton>
-    <ListItemButton>
+    <ListItemButton
+      onClick={async () => {
+        await getAuth().signOut();
+      }}
+    >
       <ListItemIcon>
         <LogoutIcon />
       </ListItemIcon>

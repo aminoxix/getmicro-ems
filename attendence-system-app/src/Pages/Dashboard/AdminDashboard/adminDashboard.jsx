@@ -99,6 +99,7 @@ function DashboardContent() {
             <Typography
               component="h1"
               variant="h6"
+              textAlign="left"
               color="inherit"
               noWrap
               sx={{ flexGrow: 1 }}

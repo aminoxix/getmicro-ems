@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 
+
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { appContext } from '../../Context/context';
 
 
 import Avatar from '@mui/material/Avatar';
@@ -24,20 +26,25 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
-
 const theme = createTheme();
 
-  
 
 export default function Signin() {
   const [open, setOpen] = useState(false);
   const [showSnackBar, setShowSnackBar] = useState(false);
   const [message, setMessage] = useState();
 
+  const { state } = useContext(appContext);
+  
+
+  
+
   const authentication = getAuth();
   let navigate = useNavigate();
 
-
+  if (state.user) {
+    navigate("/dashboard");
+  }
 
   const handleShowSnackBar = () => {
     setShowSnackBar(true);
@@ -89,11 +96,14 @@ export default function Signin() {
     </React.Fragment>
   );
 
+  
+
   useEffect(() => {
       document.title = "Signin";
   }, []);
 
-  return (
+  
+    return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -158,4 +168,5 @@ export default function Signin() {
       </Backdrop>
     </ThemeProvider>
   );
+  
 }

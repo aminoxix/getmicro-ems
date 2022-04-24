@@ -6,13 +6,12 @@ import { appContext } from "./Context/context";
 import { SET_USER } from "./Context/actions.type";
 import { reducer, initialState } from "./Context/reducer";
 import { db } from "./Config/firebase-config";
-import { useNavigate } from "react-router-dom";
 import Copyright from "./Components/Footer/Copyright";
+import { useNavigate } from "react-router";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
   let authentication = getAuth();
-  let navigate = useNavigate();
 
   // setting db settings
   db.settings({ timestampsInSnapshots: true });

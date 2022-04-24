@@ -6,10 +6,10 @@ import PrivateRoutes from "./PrivateRoutes";
 export default function PageRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Signin />} />
       <Route element={<PrivateRoutes />}>
         <Route path="/dashboard" element={<Home />} />
       </Route>
+      <Route path="/" element={<Signin />} />
     </Routes>
   );
 }

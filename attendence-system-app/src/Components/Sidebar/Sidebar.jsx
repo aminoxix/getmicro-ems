@@ -8,21 +8,27 @@ import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import GroupRemoveIcon from "@mui/icons-material/GroupRemove";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { getAuth } from "firebase/auth";
+import { Link } from "react-router-dom";
 
-export const mainListItems = (
+
+export const Sidebar = (
   <React.Fragment>
+    <Link to="/">
     <ListItemButton>
       <ListItemIcon>
         <DashboardIcon />
       </ListItemIcon>
       <ListItemText primary="Dashboard" />
-    </ListItemButton>
-    <ListItemButton>
+      </ListItemButton>
+    </Link>
+    <Link to="adduser">
+      <ListItemButton>
       <ListItemIcon>
         <GroupAddIcon />
       </ListItemIcon>
       <ListItemText primary="Add User" />
     </ListItemButton>
+    </Link>
     <ListItemButton>
       <ListItemIcon>
         <PeopleIcon />

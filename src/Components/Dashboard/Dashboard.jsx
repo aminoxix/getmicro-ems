@@ -17,7 +17,6 @@ import { Sidebar } from "../Sidebar/Sidebar";
 import { Outlet } from 'react-router';
 
 
-
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -74,7 +73,7 @@ function DashboardContent() {
 
   return (
     <ThemeProvider theme={mdTheme}>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex' }} height="100vh">
         <CssBaseline />
         <AppBar position="absolute" open={open}>
           <Toolbar

@@ -10,10 +10,9 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { getAuth } from "firebase/auth";
 import { Link } from "react-router-dom";
 
-
 export const Sidebar = (
   <React.Fragment>
-    <Link to="/">
+    <Link style={{textDecoration: "none", color:"#000",fontSize: "1rem"}} to="/">
     <ListItemButton>
       <ListItemIcon>
         <DashboardIcon />
@@ -21,7 +20,7 @@ export const Sidebar = (
       <ListItemText primary="Dashboard" />
       </ListItemButton>
     </Link>
-    <Link to="adduser">
+    <Link style={{textDecoration: "none", color:"#000",fontSize: "1rem"}} to="adduser">
       <ListItemButton>
       <ListItemIcon>
         <GroupAddIcon />

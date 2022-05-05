@@ -6,7 +6,6 @@ import Paper from '@mui/material/Paper';
 export default function AddUser() {
     return (
         <>
-            
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               {/* Chart */}
@@ -42,7 +41,6 @@ export default function AddUser() {
               </Grid>
             </Grid>
           </Container>
-       
         </>
     )
 }

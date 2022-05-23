@@ -3,12 +3,12 @@ import "./App.css";
 import axios from "axios";
 import jwt from "jsonwebtoken";
 
-import Login from "./component/Login.jsx";
-import Temp from "./component/Temp.jsx";
-import NotFound404 from "./component/NotFound404.jsx";
-import DashboardAdmin from "./component/admin/DashboardAdmin.jsx";
-import DashboardHR from "./component/hr/DashboardHR.jsx";
-import DashboardEmployee from "./component/employee/DashboardEmployee.jsx";
+import Login from "./components/Login.jsx";
+import Temp from "./components/Temp.jsx";
+import NotFound404 from "./components/NotFound404.jsx";
+import DashboardAdmin from "./components/admin/DashboardAdmin.jsx";
+import DashboardHR from "./components/hr/DashboardHR.jsx";
+import DashboardEmployee from "./components/employee/DashboardEmployee.jsx";
 import { Switch } from "react-router";
 
 import {
@@ -45,20 +45,20 @@ class App extends Component {
   }
   alertFirstTime() {
     if (this.state.firstTimeAlert && !this.state.isLogin) {
-      setTimeout(function () {
-        window.alert(
-          `To explore the feature of this application here is the temporary id and pass for all account
-      Admin:
-          id:admin@gmail.com
-          pass:admin
-      Hr:
-          id:hr@gmail.com
-          pass:hr
-      Employee:
-          id:emp@gmail.com
-          pass:emp
-      `)
-      }, 500);
+      // setTimeout(function () {
+      //   window.alert(
+      //     `To explore the feature of this application here is the temporary id and pass for all account
+      // Admin:
+      //     id:admin@getmicro.co
+      //     pass:admin
+      // Hr:
+      //     id:hr@getmicro.co
+      //     pass:hr
+      // Employee:
+      //     id:emp@getmicro.co
+      //     pass:emp
+      // `)
+      // }, 500);
 
       this.setState({ firstTimeAlert: false });
     }
@@ -255,7 +255,8 @@ class App extends Component {
             );
             this.componentDidMount();
 
-            history.push("#/hr/employee");
+            // history.push("#/hr/employee");
+            history.push("#/admin/employee");
           }
           if (decodedData.Account == 3) {
             // this.setState({ data: decodedData });

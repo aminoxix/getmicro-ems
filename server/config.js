@@ -1,3 +1,9 @@
-export const PORT = process.env.PORT || 5000;
-export const DB_URI = process.env.DB_URI;
-export const JWTKEY = process.env.JWTKEY;
+const PORT = process.env.PORT || 5000;
+const DATABASEURL = process.env.DATABASEURL;
+const JWTKEY = process.env.JWTKEY;
+
+module.exports = {
+    PORT,
+    DATABASEURL,
+    JWTKEY
+}

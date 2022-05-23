@@ -1,11 +1,14 @@
+const jwt = require("jsonwebtoken");
+const { JWTKEY } = require("../../config");
+
 function verifyAdmin(req, res, next) {
-    console.log(req.headers["authorization"]);
+    // console.log(req.headers["authorization"]);
     const Header = req.headers["authorization"];
 
     if (typeof Header !== "undefined") {
         // decodedData = jwt.decode(req.headers['authorization']);
         // if(decodedData.Account)
-        jwt.verify(Header, jwtKey, (err, authData) => {
+        jwt.verify(Header, JWTKEY, (err, authData) => {
             if (err) {
                 res.sendStatus(403);
             } else {
@@ -23,13 +26,13 @@ function verifyAdmin(req, res, next) {
     }
 }
 function verifyAdminHR(req, res, next) {
-    console.log(req.headers["authorization"]);
+    // console.log(req.headers["authorization"]);
     const Header = req.headers["authorization"];
 
     if (typeof Header !== "undefined") {
         // decodedData = jwt.decode(req.headers['authorization']);
         // if(decodedData.Account)
-        jwt.verify(Header, jwtKey, (err, authData) => {
+        jwt.verify(Header, JWTKEY, (err, authData) => {
             if (err) {
                 res.sendStatus(403);
             } else {
@@ -47,13 +50,13 @@ function verifyAdminHR(req, res, next) {
     }
 }
 function verifyHR(req, res, next) {
-    console.log(req.headers["authorization"]);
+    // console.log(req.headers["authorization"]);
     const Header = req.headers["authorization"];
 
     if (typeof Header !== "undefined") {
         // decodedData = jwt.decode(req.headers['authorization']);
         // if(decodedData.Account)
-        jwt.verify(Header, jwtKey, (err, authData) => {
+        jwt.verify(Header, JWTKEY, (err, authData) => {
             if (err) {
                 res.sendStatus(403);
             } else {
@@ -71,13 +74,13 @@ function verifyHR(req, res, next) {
     }
 }
 function verifyHREmployee(req, res, next) {
-    console.log(req.headers["authorization"]);
+    // console.log(req.headers["authorization"]);
     const Header = req.headers["authorization"];
 
     if (typeof Header !== "undefined") {
         // decodedData = jwt.decode(req.headers['authorization']);
         // if(decodedData.Account)
-        jwt.verify(Header, jwtKey, (err, authData) => {
+        jwt.verify(Header, JWTKEY, (err, authData) => {
             if (err) {
                 res.sendStatus(403);
             } else {
@@ -107,13 +110,13 @@ function verifyHREmployee(req, res, next) {
     }
 }
 function verifyEmployee(req, res, next) {
-    console.log(req.headers["authorization"]);
+    // console.log(req.headers["authorization"]);
     const Header = req.headers["authorization"];
 
     if (typeof Header !== "undefined") {
         // decodedData = jwt.decode(req.headers['authorization']);
         // if(decodedData.Account)
-        jwt.verify(Header, jwtKey, (err, authData) => {
+        jwt.verify(Header, JWTKEY, (err, authData) => {
             if (err) {
                 res.sendStatus(403);
             } else {

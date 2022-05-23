@@ -18,10 +18,13 @@ var companySchema = new mongoose.Schema({
     Deleted: { type: Boolean },
     city: [{ type: mongoose.Schema.Types.ObjectId, ref: "City" }]
 });
+
 citySchema.plugin(autoIncrement.plugin, {
     model: "Company",
     field: "CompanyID"
 });
+
+// var Company = mongoose.model("Company", companySchema);
 
 module.exports.CompanyValidation = Joi.object().keys({
     _id: Joi.optional(),

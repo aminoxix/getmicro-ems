@@ -1,13 +1,10 @@
 var express = require("express"),
-  mongoose = require("mongoose"),
-  autoIncrement = require("mongoose-auto-increment"),
-  Joi = require("joi"),
+  // Joi = require("joi"),
   app = express();
-require('dotenv').config()
-
-
+const connection = require("./db/connection");
+const { DATABASEURL, PORT } = require("./config");
 //connecting to mongodb
-let mongoURI = process.env.DATABASEURL;
+connection(DATABASEURL);
 //seting up jwt token
 
 app.use(function (req, res, next) {
@@ -20,26 +17,16 @@ app.use(function (req, res, next) {
   next();
 });
 
-mongoose.set("useNewUrlParser", true);
-mongoose.set("useFindAndModify", false);
-mongoose.set("useCreateIndex", true);
-mongoose
-  .connect(mongoURI)
-  .then(() => console.log("db connection successful"))
-  .catch(err => console.log(err));
-
-// Create mongo connection
-const conn = mongoose.createConnection(mongoURI);
-autoIncrement.initialize(conn);
-// app.use(bodyParser.urlencoded({ extended: true }));
+app.get("/", (req, res) => {
+  res.send("Server successfully started!");
+});
 
 //for request body
 app.use(express.json());
 app.use('/api', require('./routes/api'));
-var port = process.env.PORT;
-if (port & process.env.IP) {
-  app.listen(port, process.env.IP, () => {
+if (PORT & process.env.IP) {
+  app.listen(PORT, process.env.IP, () => {
     console.log("started");
   });
 } else
-  app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+  app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));

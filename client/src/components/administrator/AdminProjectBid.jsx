@@ -52,8 +52,8 @@ class AdminProjectBid extends Component {
         )}
 
         {/* <div>aminoxix</div> */}
-        {/* <Route path="/admin/ProjectBid/table" exact component={AdminProjectBidTable} /> */}
-        {/* <Route path="/admin/ProjectBid/form" exact component={() => <AdminProjectBidForm onProjectBidSubmit={this.handleProjectBidSubmit} />} /> */}
+        {/* <Route path="/administrator/ProjectBid/table" exact component={AdminProjectBidTable} /> */}
+        {/* <Route path="/administrator/ProjectBid/form" exact component={() => <AdminProjectBidForm onProjectBidSubmit={this.handleProjectBidSubmit} />} /> */}
 
         {/* <AdminProjectBidTable/> */}
       </React.Fragment>
@@ -80,11 +80,15 @@ class AdminProjectBid extends Component {
     //  let body= "CompanyID=" + event.target[0].value + "&ProjectBid=" + event.target[1].value;
     //  let body= "aminoxix";
     axios
-      .post(process.env.REACT_APP_API_URL + "/api/admin/project-bid", body, {
-        headers: {
-          authorization: localStorage.getItem("token") || "",
-        },
-      })
+      .post(
+        process.env.REACT_APP_API_URL + "/api/administrator/project-bid",
+        body,
+        {
+          headers: {
+            authorization: localStorage.getItem("token") || "",
+          },
+        }
+      )
       .then((res) => {
         this.setState({ table: false });
         this.setState({ table: true });
@@ -136,7 +140,9 @@ class AdminProjectBid extends Component {
     console.log("update", body);
     axios
       .put(
-        process.env.REACT_APP_API_URL + "/api/admin/project-bid/" + info["_id"],
+        process.env.REACT_APP_API_URL +
+          "/api/administrator/project-bid/" +
+          info["_id"],
         body,
         {
           headers: {

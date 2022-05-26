@@ -165,7 +165,7 @@ class FamilyInfoTable extends Component {
   }
   renderEditButton(params) {
     console.log(params);
-    if (this.props.back) {
+    if (true || this.props.back) {
       return <React.Fragment />;
     }
     return (
@@ -190,7 +190,7 @@ class FamilyInfoTable extends Component {
         </h2>
 
         {this.props.back ? (
-          <Link to="/admin/employee">
+          <Link to="/administrator/employee">
             <Button variant="primary" id="add-button">
               Back
             </Button>

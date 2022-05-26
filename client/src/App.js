@@ -6,8 +6,8 @@ import jwt from "jsonwebtoken";
 import Login from "./components/Login.jsx";
 import Temp from "./components/Temp.jsx";
 import NotFound404 from "./components/NotFound404.jsx";
-import DashboardAdmin from "./components/admin/DashboardAdmin.jsx";
-import DashboardHR from "./components/hr/DashboardHR.jsx";
+import DashboardAdmin from "./components/administrator/DashboardAdmin.jsx";
+import DashboardHR from "./components/admin/DashboardHR.jsx";
 import DashboardEmployee from "./components/employee/DashboardEmployee.jsx";
 import { Switch } from "react-router";
 
@@ -91,12 +91,12 @@ class App extends Component {
             render={props =>
               this.state.data["Account"] == 1 ? (
                 // <Dashboard />
-                <Redirect to="/admin" />
+                <Redirect to="/administrator" />
               ) : // <Login OnLogin={this.handleLogin}/>
 
                 this.state.data["Account"] == 2 ? (
                   // <Dashboard />
-                  <Redirect to="/hr" />
+                  <Redirect to="/admin" />
                 ) : //
                   this.state.data["Account"] == 3 ? (
                     // <Dashboard />
@@ -112,7 +112,7 @@ class App extends Component {
           />
           <Route
             // exact
-            path="/admin"
+            path="/administrator"
             render={props =>
               this.state.data["Account"] == 1 ? (
                 <DashboardAdmin
@@ -126,7 +126,7 @@ class App extends Component {
           />
           <Route
             // exact
-            path="/hr"
+            path="/admin"
             render={props =>
               this.state.data["Account"] == 2 ? (
                 <DashboardHR
@@ -236,8 +236,8 @@ class App extends Component {
               decodedData["FirstName"] + " " + decodedData["LastName"]
             );
             this.componentDidMount();
-            history.push("#/admin/role");
-            // setTimeout(() => (window.location.href = "/#/admin/role"), 500);
+            history.push("#/administrator/role");
+            // setTimeout(() => (window.location.href = "/#/administrator/role"), 500);
           }
           if (decodedData.Account == 2) {
             // this.setState({ data: decodedData });
@@ -255,8 +255,8 @@ class App extends Component {
             );
             this.componentDidMount();
 
-            // history.push("#/hr/employee");
-            history.push("#/admin/employee");
+            // history.push("#/admin/employee");
+            history.push("#/administrator/employee");
           }
           if (decodedData.Account == 3) {
             // this.setState({ data: decodedData });

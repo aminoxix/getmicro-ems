@@ -1,5 +1,3 @@
-const { application } = require("express");
-
 var express = require("express"),
     mongoose = require("mongoose"),
     autoIncrement = require("mongoose-auto-increment"),
@@ -41,8 +39,9 @@ autoIncrement.initialize(conn);
 
 //for request body
 app.use(express.json());
-//////////////////////////////////
-//////////////////Employee
+
+
+/* Employee Schema */
 var employeeSchema = new mongoose.Schema({
     FirstName: { type: String, required: true },
     MiddleName: { type: String, required: true },
@@ -122,6 +121,7 @@ const EmployeeValidation = Joi.object().keys({
         .max(3)
         .required()
 });
+
 const EmployeeValidationUpdate = Joi.object().keys({
     RoleID: Joi.optional(),
     PositionID: Joi.optional(),
@@ -190,8 +190,7 @@ const EmployeePersonalInfoValidation = Joi.object().keys({
         .required()
 });
 
-//Salary
-//salary
+/* Salary Schema */
 
 var salarySchema = new mongoose.Schema({
     BasicSalary: { type: String, required: true },
@@ -229,7 +228,7 @@ const SalaryValidation = Joi.object().keys({
         .required()
 });
 
-////////////education
+/* Education Schema */
 
 var educationSchema = new mongoose.Schema({
     SchoolUniversity: { type: String, required: true },
@@ -259,8 +258,7 @@ const EducationValidation = Joi.object().keys({
         .required()
 });
 
-//////////////////////////////
-/////////////////familyInfo
+/* FamilyInfo Schema */
 var familyInfoSchema = new mongoose.Schema({
     Name: { type: String, required: true },
     Relationship: { type: String, required: true },
@@ -286,8 +284,8 @@ const FamilyInfoValidation = Joi.object().keys({
         .max(100)
         .required()
 });
-/////////////////////
-////////////WorkExperience workExperience
+
+/* WorkExperience Schema */
 var workExperienceSchema = new mongoose.Schema({
     CompanyName: { type: String, required: true },
     Designation: { type: String, required: true },
@@ -311,8 +309,9 @@ const WorkExperienceValidation = Joi.object().keys({
     FromDate: Joi.date().required(),
     ToDate: Joi.date().required()
 });
-/////////////////////
-////////////LeaveApplication leaveApplication leave-application-emp
+
+/* LeaveApplication leave-application-emp Schema */
+
 var leaveApplicationSchema = new mongoose.Schema({
     Leavetype: { type: String, required: true },
     FromDate: { type: Date, required: true },
@@ -350,8 +349,8 @@ const LeaveApplicationHRValidation = Joi.object().keys({
         .max(3)
         .required()
 });
-//////////////////////////////////
-//////////////////Role
+
+/* Role Schema */
 var roleSchema = new mongoose.Schema({
     // RoleID: {type:Number,required:true, default: 0 },
     RoleName: { type: String, required: true },
@@ -369,6 +368,8 @@ const RoleValidation = Joi.object().keys({
         .required(),
     CompanyID: Joi.required()
 });
+
+/* Position Schema */
 
 var positionSchema = new mongoose.Schema({
     PositionName: { type: String, required: true },
@@ -388,6 +389,8 @@ const PositionValidation = Joi.object().keys({
     CompanyID: Joi.required()
 });
 
+/* Department Schema */
+
 var departmentSchema = new mongoose.Schema({
     DepartmentName: { type: String, required: true },
     company: [{ type: mongoose.Schema.Types.ObjectId, ref: "Company" }]
@@ -406,7 +409,7 @@ const DepartmentValidation = Joi.object().keys({
     CompanyID: Joi.required()
 });
 
-/////Portal
+/* Portal Schema */
 
 var portalSchema = new mongoose.Schema({
     CreatedBy: { type: String },
@@ -439,6 +442,8 @@ const PortalValidation = Joi.object().keys({
         .max(1)
         .required()
 });
+
+/* Project Schema */
 
 var projectSchema = new mongoose.Schema({
     CreatedBy: { type: String },
@@ -501,9 +506,8 @@ const ProjectValidation = Joi.object().keys({
     Portal_ID: Joi.optional()
 });
 
-/////////////////////////////////////
-//////   HR                      ////
-/////////////////////////////////////
+/* Country Schema */
+
 var countrySchema = new mongoose.Schema({
     CountryName: { type: String, required: true },
     states: [{ type: mongoose.Schema.Types.ObjectId, ref: "State" }]
@@ -521,6 +525,8 @@ const CountryValidation = Joi.object().keys({
         .max(200)
         .required()
 });
+
+/* State Schema */
 
 var stateSchema = new mongoose.Schema({
     StateName: { type: String, required: true },
@@ -541,6 +547,8 @@ const StateValidation = Joi.object().keys({
         .required()
 });
 
+/* City Schema */
+
 var citySchema = new mongoose.Schema({
     CityName: { type: String, required: true },
     state: [{ type: mongoose.Schema.Types.ObjectId, ref: "State" }]
@@ -559,8 +567,8 @@ const CityValidation = Joi.object().keys({
         .required()
 });
 
-/////////////////////////////////
-/////////////company////////////
+/* Company Schema */
+
 var companySchema = new mongoose.Schema({
     CompanyName: { type: String, required: true },
     Address: { type: String, required: true },
@@ -576,6 +584,9 @@ var companySchema = new mongoose.Schema({
     Deleted: { type: Boolean },
     city: [{ type: mongoose.Schema.Types.ObjectId, ref: "City" }]
 });
+
+/* City Schema */
+
 citySchema.plugin(autoIncrement.plugin, {
     model: "Company",
     field: "CompanyID"
@@ -622,6 +633,12 @@ const CompanyValidation = Joi.object().keys({
     Deleted: Joi.optional()
 });
 
+//////////////////
+///// Routes ////
+////////////////
+
+/* Role Routes */
+
 app.get("/api/role", verifyAdminHR, (req, res) => {
     Role.find()
         .populate("company")
@@ -652,7 +669,6 @@ app.post("/api/role", verifyAdminHR, (req, res) => {
                     console.log("new Role Saved");
                 }
             });
-            // }
             console.log(req.body);
         }
     });
@@ -684,6 +700,7 @@ app.put("/api/role/:id", verifyAdminHR, (req, res) => {
         console.log(req.body);
     });
 });
+
 app.delete("/api/role/:id", verifyAdminHR, (req, res) => {
     Employee.find({ role: req.params.id }, function (err, r) {
         if (err) {
@@ -712,6 +729,9 @@ app.delete("/api/role/:id", verifyAdminHR, (req, res) => {
         }
     });
 });
+
+/* Position Routes */
+
 app.get("/api/position", verifyAdminHR, (req, res) => {
     Position.find()
         .populate("company")
@@ -746,6 +766,7 @@ app.post("/api/position", verifyAdminHR, (req, res) => {
         console.log(req.body);
     });
 });
+
 app.put("/api/position/:id", verifyAdminHR, (req, res) => {
     Joi.validate(req.body, PositionValidation, (err, result) => {
         if (err) {
@@ -810,7 +831,8 @@ app.delete("/api/position/:id", verifyAdminHR, (req, res) => {
     });
 });
 
-//Department
+/* Department Routes */
+
 app.get("/api/department", verifyAdminHR, (req, res) => {
     Department.find()
         .populate("company")
@@ -818,6 +840,7 @@ app.get("/api/department", verifyAdminHR, (req, res) => {
             res.send(employees);
         });
 });
+
 app.post("/api/department", verifyAdminHR, (req, res) => {
     Joi.validate(req.body, DepartmentValidation, (err, result) => {
         if (err) {
@@ -844,6 +867,7 @@ app.post("/api/department", verifyAdminHR, (req, res) => {
         console.log(req.body);
     });
 });
+
 app.put("/api/department/:id", verifyAdminHR, (req, res) => {
     Joi.validate(req.body, DepartmentValidation, (err, result) => {
         if (err) {
@@ -908,7 +932,9 @@ app.delete("/api/department/:id", verifyAdminHR, (req, res) => {
     });
 });
 
-app.get("/api/admin/portal", verifyAdmin, (req, res) => {
+/* Portal Routes */
+
+app.get("/api/administrator/portal", verifyAdmin, (req, res) => {
     Portal.find()
         .populate({ path: "projects" })
         .exec(function (err, portalData) {
@@ -920,7 +946,7 @@ app.get("/api/admin/portal", verifyAdmin, (req, res) => {
         });
 });
 
-app.post("/api/admin/portal", verifyAdmin, (req, res) => {
+app.post("/api/administrator/portal", verifyAdmin, (req, res) => {
     Joi.validate(req.body, PortalValidation, (err, result) => {
         if (err) {
             console.log(err);
@@ -946,7 +972,7 @@ app.post("/api/admin/portal", verifyAdmin, (req, res) => {
     });
 });
 
-app.put("/api/admin/portal/:id", verifyAdmin, (req, res) => {
+app.put("/api/administrator/portal/:id", verifyAdmin, (req, res) => {
     Joi.validate(req.body, PortalValidation, (err, result) => {
         if (err) {
             console.log(err);
@@ -974,7 +1000,7 @@ app.put("/api/admin/portal/:id", verifyAdmin, (req, res) => {
     });
 });
 
-app.delete("/api/admin/portal/:id", verifyAdmin, (req, res) => {
+app.delete("/api/administrator/portal/:id", verifyAdmin, (req, res) => {
     Portal.findByIdAndRemove({ _id: req.params.id }, function (err, portal) {
         if (!err) {
             console.log("portal deleted");
@@ -995,9 +1021,9 @@ app.delete("/api/admin/portal/:id", verifyAdmin, (req, res) => {
     console.log(req.params.id);
 });
 
-///*********bid */
+/* Project bid Routes */
 
-app.get("/api/admin/project-bid", verifyAdmin, (req, res) => {
+app.get("/api/administrator/project-bid", verifyAdmin, (req, res) => {
     // var employee = {};
 
     Project.find()
@@ -1012,7 +1038,7 @@ app.get("/api/admin/project-bid", verifyAdmin, (req, res) => {
         });
 });
 
-app.post("/api/admin/project-bid", verifyAdmin, (req, res) => {
+app.post("/api/administrator/project-bid", verifyAdmin, (req, res) => {
     Joi.validate(req.body, ProjectValidation, (err, result) => {
         if (err) {
             console.log(err);
@@ -1044,7 +1070,7 @@ app.post("/api/admin/project-bid", verifyAdmin, (req, res) => {
     });
 });
 
-app.put("/api/admin/project-bid/:id", verifyAdmin, (req, res) => {
+app.put("/api/administrator/project-bid/:id", verifyAdmin, (req, res) => {
     Joi.validate(req.body, ProjectValidation, (err, result) => {
         if (err) {
             console.log(err);
@@ -1080,7 +1106,7 @@ app.put("/api/admin/project-bid/:id", verifyAdmin, (req, res) => {
     });
 });
 
-app.delete("/api/admin/project-bid/:id", verifyAdmin, (req, res) => {
+app.delete("/api/administrator/project-bid/:id", verifyAdmin, (req, res) => {
     Project.findByIdAndRemove({ _id: req.params.id }, function (err, project) {
         if (err) {
             console.log("error");
@@ -1094,9 +1120,7 @@ app.delete("/api/admin/project-bid/:id", verifyAdmin, (req, res) => {
     console.log(req.params.id);
 });
 
-/////////////////////////////////////
-//////   HR                      ////
-/////////////////////////////////////
+/* Country Routes */
 
 app.get("/api/country", verifyHR, (req, res) => {
     Country.find()
@@ -1165,7 +1189,7 @@ app.delete("/api/country/:id", verifyHR, (req, res) => {
         if (err) {
             res.send(err);
         } else {
-            console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk", foundCountry);
+            console.log("got, country deleted", foundCountry);
             if (!foundCountry.states.length == 0) {
                 res
                     .status(403)
@@ -1212,6 +1236,8 @@ app.delete("/api/country/:id", verifyHR, (req, res) => {
     console.log(req.params.id);
 });
 
+/* State Routes */
+
 app.get("/api/state", verifyHR, (req, res) => {
     State.find()
         .populate("country citiesx")
@@ -1219,7 +1245,7 @@ app.get("/api/state", verifyHR, (req, res) => {
             res.send(country);
         });
 });
-//State
+
 app.post("/api/state", verifyHR, (req, res) => {
     Joi.validate(req.body, StateValidation, (err, result) => {
         if (err) {
@@ -1262,8 +1288,7 @@ app.post("/api/state", verifyHR, (req, res) => {
         }
     });
 });
-//State
-//state
+
 app.put("/api/state/:id", verifyHR, (req, res) => {
     Joi.validate(req.body, StateValidation, (err, result) => {
         if (err) {
@@ -1329,7 +1354,7 @@ app.delete("/api/state/:id", verifyHR, (req, res) => {
     console.log(req.params.id);
 });
 
-/////////////city
+/* City Routes */
 
 app.get("/api/city", verifyHR, (req, res) => {
     City.find()
@@ -1339,6 +1364,7 @@ app.get("/api/city", verifyHR, (req, res) => {
             res.send(city);
         });
 });
+
 app.post("/api/city", verifyHR, (req, res) => {
     Joi.validate(req.body, CityValidation, (err, result) => {
         if (err) {
@@ -1382,6 +1408,7 @@ app.post("/api/city", verifyHR, (req, res) => {
         }
     });
 });
+
 app.put("/api/city/:id", verifyHR, (req, res) => {
     Joi.validate(req.body, CityValidation, (err, result) => {
         if (err) {
@@ -1447,8 +1474,7 @@ app.delete("/api/city/:id", verifyHR, (req, res) => {
     console.log(req.params.id);
 });
 
-///////////////////////////
-////////////company
+/* Company Routes */
 
 app.get("/api/company", verifyAdminHR, (req, res) => {
     // var employee = {};
@@ -1470,6 +1496,7 @@ app.get("/api/company", verifyAdminHR, (req, res) => {
             res.send(company);
         });
 });
+
 app.post("/api/company", verifyHR, (req, res) => {
     Joi.validate(req.body, CompanyValidation, (err, result) => {
         if (err) {
@@ -1506,6 +1533,7 @@ app.post("/api/company", verifyHR, (req, res) => {
         }
     });
 });
+
 app.put("/api/company/:id", verifyHR, (req, res) => {
     Joi.validate(req.body, CompanyValidation, (err, result) => {
         if (err) {
@@ -1559,8 +1587,8 @@ app.delete("/api/company/:id", verifyHR, (req, res) => {
     console.log("delete");
     console.log(req.params.id);
 });
-/////////////////////////////////
-/////////////////////Employee
+
+/* Employee Routes */
 
 app.get("/api/employee", verifyHR, (req, res) => {
     // {path: 'projects', populate: {path: 'portals'}}
@@ -1666,23 +1694,23 @@ app.put("/api/employee/:id", verifyHR, (req, res) => {
     });
 });
 
-app.delete("/api/employee/:id", verifyHR, (req, res) => {
-    // Employee.findByIdAndRemove({ _id: req.params.id }, function (err, employee) {
-    //     if (!err) {
-    //         console.log(" state deleted");
-    //         res.send(employee);
-    //     } else {
-    //         console.log(err);
-    //         res.send("error");
-    //     }
-    // });
-    res.send("error");
-    console.log("delete");
+app.delete("/api/employee/:id", verifyAdminHR, (req, res) => {
+    Employee.findByIdAndRemove({ _id: req.params.id }, function (err, employee) {
+        if (!err) {
+            console.log(" employee deleted");
+            res.send(employee);
+        } else {
+            console.log(err);
+            res.send("error");
+        }
+    });
+    // res.send("error");
+    console.log("delete employee");
     console.log(req.params.id);
 });
 
-////////////////////////////////
-//////////////////salary
+/* Salary Routes */
+
 app.get("/api/salary", verifyHR, (req, res) => {
     // var employee = {};
     // {path: 'projects', populate: {path: 'portals'}}
@@ -1825,14 +1853,11 @@ app.delete("/api/salary/:id", verifyHR, (req, res) => {
     });
 });
 
-//////////////////////////////////////
 /////////////////////////////////////
-/////////////////////////////Employee dashboard
-/////////////////////////////////////
-/////////////////////////////////////
+////////// Employee dashboard //////
+///////////////////////////////////
 
-////////////////////////////////////
-////////////////////////////personal info
+/* Personal info Routes */
 
 app.get("/api/personal-info/:id", verifyHREmployee, (req, res) => {
     console.log("personal-info", req.params.id);
@@ -1893,8 +1918,8 @@ app.put("/api/personal-info/:id", verifyEmployee, (req, res) => {
     });
 });
 
-////////////////////////////////
-////////////////////education
+/* Education Routes */
+
 app.get("/api/education/:id", verifyHREmployee, (req, res) => {
     console.log(req.params.id);
     // var employee = {};
@@ -2027,8 +2052,8 @@ app.delete("/api/education/:id/:id2", verifyEmployee, (req, res) => {
     });
 });
 
-//////////////////////////////////
-//////////////////////////familyInfo
+/* FamilyInfo Routes */
+
 app.get("/api/family-info/:id", verifyHREmployee, (req, res) => {
     console.log(req.params.id);
     // var employee = {};
@@ -2161,8 +2186,8 @@ app.delete("/api/family-info/:id/:id2", verifyEmployee, (req, res) => {
     });
 });
 
-//////////////////////////////////
-//////////////////////////WorkExperience workExperience
+/* WorkExperience Routes */
+
 app.get("/api/work-experience/:id", verifyHREmployee, (req, res) => {
     console.log(req.params.id);
     // var employee = {};
@@ -2298,8 +2323,8 @@ app.delete("/api/Work-experience/:id/:id2", verifyEmployee, (req, res) => {
     });
 });
 
-/////////////////////
-////////////LeaveApplication leaveApplication leave-application-emp
+/* LeaveApplication leave-application-emp Routes */
+
 app.get("/api/leave-application-emp/:id", verifyEmployee, (req, res) => {
     console.log(req.params.id);
     // var employee = {};
@@ -2448,8 +2473,8 @@ app.delete(
     }
 );
 
-/////////////////////
-////////////LeaveApplication leaveApplication HHHHHHRRRRR
+/* LeaveApplication leaveApplication HR Routes */
+
 app.get("/api/leave-application-hr", verifyHR, (req, res) => {
     // var employee = {};
     // {path: 'projects', populate: {path: 'portals'}}
@@ -2530,8 +2555,7 @@ app.delete("/api/leave-application-hr/:id/:id2", verifyHR, (req, res) => {
     });
 });
 
-//////////////////////////////////
-/////////////////////login
+/* Authentication */
 
 app.post("/api/login", (req, res) => {
     Joi.validate(
@@ -2576,10 +2600,14 @@ app.post("/api/login", (req, res) => {
     );
 });
 
-// middleware
+/////////////////////////
+////// middleware //////
+///////////////////////
+
+/* VerifyAdmin */
 
 function verifyAdmin(req, res, next) {
-    console.log(req.headers["authorization"]);
+    // console.log(req.headers["authorization"]);
     const Header = req.headers["authorization"];
 
     if (typeof Header !== "undefined") {
@@ -2602,8 +2630,11 @@ function verifyAdmin(req, res, next) {
         res.sendStatus(403);
     }
 }
+
+/* VerifyAdminHR */
+
 function verifyAdminHR(req, res, next) {
-    console.log(req.headers["authorization"]);
+    // console.log(req.headers["authorization"]);
     const Header = req.headers["authorization"];
 
     if (typeof Header !== "undefined") {
@@ -2626,8 +2657,11 @@ function verifyAdminHR(req, res, next) {
         res.sendStatus(403);
     }
 }
+
+/* VerifyHR */
+
 function verifyHR(req, res, next) {
-    console.log(req.headers["authorization"]);
+    // console.log(req.headers["authorization"]);
     const Header = req.headers["authorization"];
 
     if (typeof Header !== "undefined") {
@@ -2650,8 +2684,11 @@ function verifyHR(req, res, next) {
         res.sendStatus(403);
     }
 }
+
+/* VerifyHREmployee */
+
 function verifyHREmployee(req, res, next) {
-    console.log(req.headers["authorization"]);
+    // console.log(req.headers["authorization"]);
     const Header = req.headers["authorization"];
 
     if (typeof Header !== "undefined") {
@@ -2686,8 +2723,11 @@ function verifyHREmployee(req, res, next) {
         res.sendStatus(403);
     }
 }
+
+/* VerifyEmployee */
+
 function verifyEmployee(req, res, next) {
-    console.log(req.headers["authorization"]);
+    // console.log(req.headers["authorization"]);
     const Header = req.headers["authorization"];
 
     if (typeof Header !== "undefined") {
@@ -2714,6 +2754,12 @@ function verifyEmployee(req, res, next) {
         res.sendStatus(403);
     }
 }
+
+/////////////////////////
+////// end middleware //
+///////////////////////
+
+/* Port */
 
 var port = process.env.PORT;
 if (port & process.env.IP) {

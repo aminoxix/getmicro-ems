@@ -1,23 +1,23 @@
 import React, { Component } from "react";
-import "./DashboardAdmin.css";
-import { HashRouter as Router, Route, Link } from "react-router-dom";
+// import "./DashboardHR.css";
+import { HashRouter as Router, Route, Link, Navigate } from "react-router-dom";
 import { Switch } from "react-router";
-import { Redirect } from "react-router-dom";
+// import { Redirect } from "react-router-dom";
 import Role from "../Role.jsx";
 import NavBar from "../NavBar.jsx";
-import RoleForm from "../RoleForm.jsx";
+// import RoleForm from "../RoleForm.jsx";
 import Position from "../Position.jsx";
 import Department from "../Department.jsx";
-import AdminPortal from "./AdminPortal.jsx";
-import AdminProjectBid from "./AdminProjectBid.jsx";
 import Country from "../Country.jsx";
 import State from "../State.jsx";
 import City from "../City.jsx";
 import Company from "../Company.jsx";
 import Employee from "../Employee.jsx";
 import Salary from "../Salary.jsx";
-import LeaveApplicationHR from "../hr/LeaveApplicationHR.jsx";
+import LeaveApplicationHR from "./LeaveApplicationHR.jsx";
 import NotFound404 from "../NotFound404.jsx";
+
+import Dashboard from "./Dashboard.jsx";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -25,8 +25,6 @@ import {
   faUsers,
   faChair,
   faBuilding,
-  faDollarSign,
-  faTasks,
   faUser,
   faRupeeSign,
   faFileAlt,
@@ -36,15 +34,12 @@ import {
   faArchway,
 } from "@fortawesome/free-solid-svg-icons";
 
-function RoleAdminF() {
+function RoleHRF() {
   return <Role />;
 }
 
 function PositionF() {
   return <Position />;
-}
-function RoleFormF() {
-  return <RoleForm />;
 }
 
 function DepartmentF() {
@@ -79,15 +74,14 @@ function LeaveApplicationHRF() {
   return <LeaveApplicationHR />;
 }
 
-function AdminPortalF() {
-  return <AdminPortal />;
-}
+// function HRPortalF() {
+//   return <HRPortal />;
+// }
+// function HRProjectBidF() {
+//   return <HRProjectBid />;
+// }
 
-function AdminProjectBidF() {
-  return <AdminProjectBid />;
-}
-
-class DashboardAdmin extends Component {
+class DashboardHR extends Component {
   state = {
     redirect: true,
     checked: true,
@@ -116,6 +110,7 @@ class DashboardAdmin extends Component {
 
         <div id="outer-main-div">
           <div id="outer-nav">
+            {/* <NavBar loginInfo={this.props.data} /> */}
             <NavBar
               loginInfo={this.props.data}
               checked={this.state.checked}
@@ -129,7 +124,8 @@ class DashboardAdmin extends Component {
               <div id="sidebar-top-content" />
               <div id="main-title">
                 <FontAwesomeIcon icon={faUserTie} className="sidebar-icon" />
-                Admin
+                ADMIN
+                {/* actually HR */}
               </div>
               <ul className="navbar-ul">
                 <li>
@@ -139,9 +135,48 @@ class DashboardAdmin extends Component {
                   </Link>
                 </li>
                 <li>
+                  <Link to="/admin/salary">
+                    <FontAwesomeIcon
+                      icon={faRupeeSign}
+                      className="sidebar-icon"
+                    />
+                    Salary
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/admin/leave-application-hr">
+                    <FontAwesomeIcon
+                      icon={faFileAlt}
+                      className="sidebar-icon"
+                    />
+                    Leave Application
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/admin/company">
+                    <FontAwesomeIcon icon={faCity} className="sidebar-icon" />
+                    Company
+                  </Link>
+                </li>
+                <li>
                   <Link to="/admin/role">
                     <FontAwesomeIcon icon={faUsers} className="sidebar-icon" />
                     Role
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/admin/position">
+                    <FontAwesomeIcon icon={faChair} className="sidebar-icon" />
+                    Position
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/admin/department">
+                    <FontAwesomeIcon
+                      icon={faBuilding}
+                      className="sidebar-icon"
+                    />
+                    Department
                   </Link>
                 </li>
                 <li>
@@ -171,104 +206,55 @@ class DashboardAdmin extends Component {
                     City
                   </Link>
                 </li>
-                <li>
-                  <Link to="/admin/company">
-                    <FontAwesomeIcon icon={faCity} className="sidebar-icon" />
-                    company
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/admin/department">
-                    <FontAwesomeIcon
-                      icon={faBuilding}
-                      className="sidebar-icon"
-                    />
-                    Department
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/admin/position">
-                    <FontAwesomeIcon icon={faChair} className="sidebar-icon" />
-                    Position
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/admin/salary">
-                    <FontAwesomeIcon
-                      icon={faRupeeSign}
-                      className="sidebar-icon"
-                    />
-                    Salary
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/admin/project-bid">
-                    <FontAwesomeIcon
-                      icon={faDollarSign}
-                      className="sidebar-icon"
-                    />
-                    Project Bidding
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/admin/portal-master">
-                    <FontAwesomeIcon icon={faTasks} className="sidebar-icon" />
-                    Portal Master
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/admin/leave-application-admin">
-                    <FontAwesomeIcon
-                      icon={faFileAlt}
-                      className="sidebar-icon"
-                    />
-                    Leave Application
-                  </Link>
-                </li>
+                <li></li>
+                {/* <li> <a href=""><FontAwesomeIcon icon={faChair} className="sidebar-icon"/> Position</a>   </li> */}
+                {/* <li> <a href=""><FontAwesomeIcon icon={faBuilding} className="sidebar-icon"/> Department</a>   </li> */}
+                {/* <li> <a href=""><FontAwesomeIcon icon={faDollarSign} className="sidebar-icon"/> Project Bidding</a>   </li> */}
+                {/* <li> <a href=""><FontAwesomeIcon icon={faTasks} className="sidebar-icon"/> Portal Master</a>   </li> */}
               </ul>
             </div>
             {/* <div id="sidebar-top-content" /> */}
             <div id="main-area">
               <div id="sidebar-top-content" />
               {/* //table */}
-              {/* <RoleAdmin/> */}
+              {/* <RoleHR/> */}
               <Switch>
-                <Route exact path="/admin/role" component={RoleAdminF} />
+                <Route path="/admin" exact component={Dashboard} />
+                <Route
+                  path="/admin/employee"
+                  // exact
+                  component={EmployeeF}
+                />
+                <Route path="/admin/salary" exact component={SalaryF} />
+                <Route path="/admin/company" exact component={CompanyF} />
+                <Route path="/admin/role" component={RoleHRF} />
                 {/* <Route path="/admin/role/form" exact component={RoleFormF} /> */}
                 <Route path="/admin/position" exact component={PositionF} />
                 <Route path="/admin/department" exact component={DepartmentF} />
-                <Route path="/admin/salary" exact component={SalaryF} />
-                <Route path="/admin/company" exact component={CompanyF} />
                 <Route path="/admin/country" exact component={CountryF} />
                 <Route path="/admin/state" exact component={StateF} />
                 <Route path="/admin/city" exact component={CityF} />
                 <Route
-                  path="/admin/leave-application-admin"
+                  path="/admin/leave-application-hr"
                   exact
                   component={LeaveApplicationHRF}
                 />
-
-                <Route
+                {/* <Route
                   path="/admin/portal-master"
                   exact
-                  component={AdminPortalF}
-                />
-                <Route
+                  component={HRPortalF}
+                /> */}
+                {/* <Route
                   path="/admin/project-bid"
                   exact
-                  component={AdminProjectBidF}
-                />
+                  component={HRProjectBidF}
+                /> */}
                 {/* <Route
                   exact
-                  path="/admin"
-                  render={() => <Redirect to="/admin/role" />}
+                  path="/hr"
+                  render={() => <Redirect to="hr/employee" />}
                 /> */}
-                <Route
-                  render={
-                    () => <NotFound404 />
-                    // <Redirect to="/admin/role" />
-                  }
-                />
+                <Route render={() => <NotFound404 />} />
               </Switch>
             </div>
           </div>
@@ -278,4 +264,4 @@ class DashboardAdmin extends Component {
   }
 }
 
-export default DashboardAdmin;
+export default DashboardHR;

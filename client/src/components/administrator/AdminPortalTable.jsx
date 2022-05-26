@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import "./AdminProjectBidTable.css";
+// import "./AdminPortalTable.css";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
@@ -18,62 +18,25 @@ const override = css`
   border-color: red;
 `;
 
-class AdminProjectBidTable extends Component {
+class AdminPortalTable extends Component {
   state = {
-    projectBidData: [],
+    portalData: [],
     loading: true,
 
     columnDefs: [
-      // {
-      //   headerName: "",
-      //   field: "",
-      //   sortable: true
-      //   // filter: true ,
-      // },
-      // {
-      //   headerName: "",
-      //   field: "",
-      //   sortable: true,
-      //   type: "numberColumn",
-      //   filter: 'agNumberColumnFilter'
-      //   // filter: true ,
-      // },
-      {
-        headerName: "Project Title",
-        field: "ProjectTitle",
-        sortable: true,
-        // filter: true ,
-      },
       {
         headerName: "Portal",
         field: "PortalName",
         sortable: true,
+        // width: 150,
         // filter: true ,
       },
+
       {
-        headerName: "Project URL",
-        field: "ProjectURL",
+        headerName: "Status",
+        field: "Status",
         sortable: true,
-        // filter: true ,
-      },
-      {
-        headerName: "Estimated Time",
-        field: "EstimatedTime",
-        sortable: true,
-        // filter: true ,
-      },
-      {
-        headerName: "Estimated Cost",
-        field: "EstimatedCost",
-        sortable: true,
-        type: "numberColumn",
-        filter: "agNumberColumnFilter",
-        // filter: true ,
-      },
-      {
-        headerName: "Remark",
-        field: "Remark",
-        sortable: true,
+        // width: 150,
         // filter: true ,
       },
 
@@ -95,7 +58,7 @@ class AdminProjectBidTable extends Component {
     rowData: [],
     defaultColDef: {
       resizable: true,
-      width: 200,
+      width: 590,
       filter: "agTextColumnFilter",
       // filter: true ,
     },
@@ -103,32 +66,29 @@ class AdminProjectBidTable extends Component {
       return 35;
     },
   };
-  projectBidObj = [];
+  portalObj = [];
   rowDataT = [];
 
-  loadProjectBidData = () => {
+  loadPortalData = () => {
     axios
-      .get(process.env.REACT_APP_API_URL + "/api/admin/project-bid", {
+      .get(process.env.REACT_APP_API_URL + "/api/administrator/portal", {
         headers: {
           authorization: localStorage.getItem("token") || "",
         },
       })
       .then((response) => {
-        this.projectBidObj = response.data;
+        this.portalObj = response.data;
+        // }
         console.log("response", response.data);
-        this.setState({ projectBidData: response.data });
+        this.setState({ portalData: response.data });
         this.setState({ loading: false });
         this.rowDataT = [];
 
-        this.projectBidObj.map((data) => {
+        this.portalObj.map((data) => {
           let temp = {
             data,
-            ProjectTitle: data["ProjectTitle"],
-            PortalName: data["portals"][0]["PortalName"],
-            ProjectURL: data["ProjectURL"],
-            EstimatedTime: data["EstimatedTime"],
-            EstimatedCost: data["EstimatedCost"],
-            Remark: data["Remark"],
+            PortalName: data["PortalName"],
+            Status: data["Status"] == 1 ? "enable" : "disable",
           };
 
           this.rowDataT.push(temp);
@@ -140,15 +100,22 @@ class AdminProjectBidTable extends Component {
       });
   };
 
-  onProjectBidDelete = (e) => {
+  onPortalDelete = (e) => {
     console.log(e);
-    if (window.confirm("Are you sure to delete this record? ") == true) {
+    if (
+      window.confirm(
+        "Are you sure to delete this record,It Will Delete All Projects Related to This Portal? "
+      ) == true
+    ) {
       axios
-        .delete(process.env.REACT_APP_API_URL + "/api/admin/project-bid/" + e, {
-          headers: {
-            authorization: localStorage.getItem("token") || "",
-          },
-        })
+        .delete(
+          process.env.REACT_APP_API_URL + "/api/administrator/portal/" + e,
+          {
+            headers: {
+              authorization: localStorage.getItem("token") || "",
+            },
+          }
+        )
         .then((res) => {
           this.componentDidMount();
         })
@@ -158,14 +125,14 @@ class AdminProjectBidTable extends Component {
     }
   };
   componentDidMount() {
-    this.loadProjectBidData();
+    this.loadPortalData();
   }
   renderButton(params) {
     console.log(params);
     return (
       <FontAwesomeIcon
         icon={faTrash}
-        onClick={() => this.onProjectBidDelete(params.data.data["_id"])}
+        onClick={() => this.onPortalDelete(params.data.data["_id"])}
       />
     );
   }
@@ -174,7 +141,7 @@ class AdminProjectBidTable extends Component {
     return (
       <FontAwesomeIcon
         icon={faEdit}
-        onClick={() => this.props.onEditProjectBid(params.data.data)}
+        onClick={() => this.props.onEditPortal(params.data.data)}
       />
     );
   }
@@ -182,16 +149,15 @@ class AdminProjectBidTable extends Component {
   render() {
     return (
       <div id="table-outer-div-scroll">
-        <h2 id="role-title">Bidding Details</h2>
+        <h2 id="role-title">Portal Details</h2>
         <Button
           variant="primary"
           id="add-button"
-          onClick={this.props.onAddProjectBid}
+          onClick={this.props.onAddPortal}
         >
           <FontAwesomeIcon icon={faPlus} id="plus-icon" />
           Add
         </Button>
-
         <div id="clear-both" />
 
         {!this.state.loading ? (
@@ -233,4 +199,4 @@ class AdminProjectBidTable extends Component {
   }
 }
 
-export default AdminProjectBidTable;
+export default AdminPortalTable;

@@ -6,7 +6,7 @@ import {
   faPlus,
   faTrash,
   faEdit,
-  faInfoCircle
+  faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { RingLoader } from "react-spinners";
 import { css } from "@emotion/core";
@@ -16,14 +16,12 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
 
-
 const override = css`
   display: block;
   margin: 0 auto;
   margin-top: 45px;
   border-color: red;
 `;
-
 
 class AdminEmployeeTable extends Component {
   state = {
@@ -83,7 +81,7 @@ class AdminEmployeeTable extends Component {
         sortable: true,
         filter: true,
         type: ["dateColumn"],
-        filter: "agDateColumnFilter"
+        filter: "agDateColumnFilter",
       },
       {
         headerName: "ContactNo",
@@ -112,22 +110,17 @@ class AdminEmployeeTable extends Component {
       {
         headerName: "Department Name",
         field: "DepartmentName",
-        sortable: true
-        ,
+        sortable: true,
         width: 120,
         // filter: true ,
       },
 
-
-
       {
         headerName: "Date Of Joining",
         field: "DateOfJoining",
-        sortable: true
-        ,
+        sortable: true,
         width: 120,
         // filter: true ,
-
       },
       {
         headerName: "",
@@ -139,8 +132,6 @@ class AdminEmployeeTable extends Component {
         //   return <button OnClick={console.log("pa",params)}>Test</button>;
         // },
         cellRendererFramework: this.renderInfoButton.bind(this),
-
-
       },
       {
         headerName: "",
@@ -152,8 +143,6 @@ class AdminEmployeeTable extends Component {
         //   return <button OnClick={console.log("pa",params)}>Test</button>;
         // },
         cellRendererFramework: this.renderEditButton.bind(this),
-
-
       },
       {
         headerName: "",
@@ -165,21 +154,18 @@ class AdminEmployeeTable extends Component {
         //   return <button OnClick={console.log("pa",params)}>Test</button>;
         // },
         cellRendererFramework: this.renderButton.bind(this),
-
-
       },
-
     ],
     rowData: [],
     defaultColDef: {
       resizable: true,
       width: 100,
-      filter: "agTextColumnFilter"
+      filter: "agTextColumnFilter",
       // filter: true ,
     },
     getRowHeight: function (params) {
       return 35;
-    }
+    },
   };
   employeeObj = [];
   rowDataT = [];
@@ -188,58 +174,71 @@ class AdminEmployeeTable extends Component {
     axios
       .get(process.env.REACT_APP_API_URL + "/api/employee", {
         headers: {
-          authorization: localStorage.getItem("token") || ""
-        }
+          authorization: localStorage.getItem("token") || "",
+        },
       })
-      .then(response => {
+      .then((response) => {
         this.employeeObj = response.data;
         console.log("response", response.data);
         this.setState({ employeeData: response.data });
         this.setState({ loading: false });
         this.rowDataT = [];
-        this.employeeObj.map(data => {
-          let temp = {
-            data,
-            Email: data["Email"],
-            Password: data["Password"],
-            Account: data["Account"] == 1 ? "Admin" : (data["Account"] == 2 ? "HR" : (data["Account"] == 3 ? "Employee" : "")),
-            RoleName: data["role"][0]["RoleName"],
-            FirstName: data["FirstName"],
-            MiddleName: data["MiddleName"],
-            LastName: data["LastName"],
-            DOB: data["DOB"].slice(0, 10),
-            ContactNo: data["ContactNo"],
-            EmployeeCode: data["EmployeeCode"],
-            DepartmentName: data["department"][0]["DepartmentName"],
-            PositionName: data["position"][0]["PositionName"],
-            DateOfJoining: data["DateOfJoining"].slice(0, 10)
-          };
+        console.log("this.employeeObj", this.employeeObj);
+        this.employeeObj
+          .filter(
+            (data) => data.role[0] && data.department[0] && data.position[0]
+          )
+          .map((data) => {
+            let temp = {
+              data,
+              Email: data["Email"],
+              Password: data["Password"],
+              Account:
+                data["Account"] == 1
+                  ? "Administrator"
+                  : data["Account"] == 2
+                  ? "Admin"
+                  : data["Account"] == 3
+                  ? "Employee"
+                  : "",
+              RoleName: data["role"][0]["RoleName"],
+              FirstName: data["FirstName"],
+              MiddleName: data["MiddleName"],
+              LastName: data["LastName"],
+              DOB: data["DOB"].slice(0, 10),
+              ContactNo: data["ContactNo"],
+              EmployeeCode: data["EmployeeCode"],
+              DepartmentName: data["department"][0]["DepartmentName"],
+              PositionName: data["position"][0]["PositionName"],
+              DateOfJoining: data["DateOfJoining"].slice(0, 10),
+            };
 
-          this.rowDataT.push(temp);
-        });
+            this.rowDataT.push(temp);
+          });
         this.setState({ rowData: this.rowDataT });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
 
-  onEmployeeDelete = e => {
+  // delete krne ke liye dhyaan de
+  onEmployeeDelete = (e) => {
     console.log(e);
     if (window.confirm("Are you sure to delete this record? ") == true) {
-      window.alert("You are not allowed to perform this operation");
-      // axios
-      //   .delete(process.env.REACT_APP_API_URL + "/api/employee/" + e, {
-      //     headers: {
-      //       authorization: localStorage.getItem("token") || ""
-      //     }
-      //   })
-      //   .then(res => {
-      //     this.componentDidMount();
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
+      // window.alert("You are not allowed to perform this operation");
+      axios
+        .delete(process.env.REACT_APP_API_URL + "/api/employee/" + e, {
+          headers: {
+            authorization: localStorage.getItem("token") || "",
+          },
+        })
+        .then((res) => {
+          this.componentDidMount();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
   componentDidMount() {
@@ -247,31 +246,38 @@ class AdminEmployeeTable extends Component {
   }
   handleClick = (e) => {
     console.log(e);
-  }
+  };
   renderInfoButton(params) {
     console.log(params);
-    return <div>
-      <FontAwesomeIcon
-        icon={faInfoCircle}
-        onClick={() => this.props.onEmpInfo(params.data.data)}
-      /></div>;
+    return (
+      <div>
+        <FontAwesomeIcon
+          icon={faInfoCircle}
+          onClick={() => this.props.onEmpInfo(params.data.data)}
+        />
+      </div>
+    );
   }
   renderButton(params) {
     console.log(params);
-    return <FontAwesomeIcon
-      icon={faTrash}
-      onClick={() => this.onEmployeeDelete(params.data.data["_id"])}
-    />;
+    return (
+      <FontAwesomeIcon
+        icon={faTrash}
+        onClick={() => this.onEmployeeDelete(params.data.data["_id"])}
+      />
+    );
   }
   renderEditButton(params) {
     console.log(params);
-    return <FontAwesomeIcon
-      icon={faEdit}
-      onClick={() => this.props.onEditEmployee(params.data.data)}
-    />;
+    return (
+      <FontAwesomeIcon
+        icon={faEdit}
+        onClick={() => this.props.onEditEmployee(params.data.data)}
+      />
+    );
   }
 
-  searchChange = e => {
+  searchChange = (e) => {
     console.log(e.target.value);
     this.setState({ searchData: e.target.value });
   };
@@ -335,12 +341,12 @@ class AdminEmployeeTable extends Component {
           <div
             id="table-div"
             className="ag-theme-balham"
-          //   style={
-          //     {
-          //     height: "500px",
-          //     width: "100%"
-          //   }
-          // }
+            //   style={
+            //     {
+            //     height: "500px",
+            //     width: "100%"
+            //   }
+            // }
           >
             <AgGridReact
               columnDefs={this.state.columnDefs}
@@ -355,17 +361,16 @@ class AdminEmployeeTable extends Component {
             />
           </div>
         ) : (
-            <div id="loading-bar">
-              <RingLoader
-                css={override}
-                sizeUnit={"px"}
-                size={50}
-                color={"#0000ff"}
-                loading={true}
-              />
-            </div>
-          )}
-
+          <div id="loading-bar">
+            <RingLoader
+              css={override}
+              sizeUnit={"px"}
+              size={50}
+              color={"#0000ff"}
+              loading={true}
+            />
+          </div>
+        )}
       </div>
     );
   }

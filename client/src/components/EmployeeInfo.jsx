@@ -24,7 +24,7 @@ export class EmployeeInfo extends Component {
           {this.props.data["FirstName"] + " " + this.props.data["LastName"]}
         </h2>
         <div id="outer-empingo-div">
-          <Link to="/admin/employee/info/personal-info">
+          <Link to="/hr/employee/info/personal-info">
             <Button
               variant="outline-primary"
               size="lg"
@@ -34,7 +34,7 @@ export class EmployeeInfo extends Component {
               Personal Information
             </Button>
           </Link>
-          <Link to="/admin/employee/info/education">
+          <Link to="/administrator/employee/info/education">
             <Button
               variant="outline-primary"
               size="lg"
@@ -44,7 +44,7 @@ export class EmployeeInfo extends Component {
               Education
             </Button>
           </Link>
-          <Link to="/admin/employee/info/family-info">
+          <Link to="/administrator/employee/info/family-info">
             <Button
               variant="outline-primary"
               size="lg"
@@ -54,7 +54,7 @@ export class EmployeeInfo extends Component {
               Dependents
             </Button>
           </Link>
-          <Link to="/admin/employee/info/work-experience">
+          <Link to="/hr/employee/info/work-experience">
             <Button
               variant="outline-primary"
               size="lg"

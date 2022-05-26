@@ -11,7 +11,6 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
 
-
 const override = css`
   display: block;
   margin: 0 auto;
@@ -19,22 +18,20 @@ const override = css`
   border-color: red;
 `;
 
-
 class RoleTable extends Component {
   state = {
     roleData: [],
     loading: true,
 
     columnDefs: [
-   
       {
         headerName: "Company Name",
         field: "CompanyName",
         sortable: true,
         // width: 150,
-        // filter: true ,
+        // filter: true,
       },
-   
+
       {
         headerName: "Role",
         field: "RoleName",
@@ -42,35 +39,32 @@ class RoleTable extends Component {
         // width: 150,
         // filter: true ,
       },
-      
-      
 
       {
         headerName: "",
         field: "edit",
         filter: false,
         width: 30,
-        cellRendererFramework: this.renderEditButton.bind(this)
+        cellRendererFramework: this.renderEditButton.bind(this),
       },
       {
         headerName: "",
         field: "delete",
         filter: false,
         width: 30,
-        cellRendererFramework: this.renderButton.bind(this)
-      }
+        cellRendererFramework: this.renderButton.bind(this),
+      },
     ],
     rowData: [],
     defaultColDef: {
       resizable: true,
       width: 590,
-      filter: "agTextColumnFilter"
-      // filter: true ,
+      filter: "agTextColumnFilter",
+      // filter: true,
     },
-    getRowHeight: function(params) {
+    getRowHeight: function (params) {
       return 35;
-    }
-
+    },
   };
   roleObj = [];
   rowDataT = [];
@@ -79,10 +73,10 @@ class RoleTable extends Component {
     axios
       .get(process.env.REACT_APP_API_URL + "/api/role", {
         headers: {
-          authorization: localStorage.getItem("token") || ""
-        }
+          authorization: localStorage.getItem("token") || "",
+        },
       })
-      .then(response => {
+      .then((response) => {
         this.roleObj = response.data;
 
         console.log("response", response.data);
@@ -90,41 +84,41 @@ class RoleTable extends Component {
         this.setState({ loading: false });
         this.rowDataT = [];
 
-        this.roleObj.map(data => {
+        this.roleObj.map((data) => {
           let temp = {
             data,
-            CompanyName: data["company"][0]["CompanyName"],
-            RoleName:data["RoleName"],
-            
+            CompanyName:
+              data["company"][0] && data["company"][0]["CompanyName"],
+            RoleName: data["RoleName"],
           };
 
           this.rowDataT.push(temp);
         });
         this.setState({ rowData: this.rowDataT });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
 
-  onRoleDelete = e => {
+  onRoleDelete = (e) => {
     console.log(e);
     if (window.confirm("Are you sure to delete this record ? ") == true) {
       axios
         .delete(process.env.REACT_APP_API_URL + "/api/role/" + e, {
           headers: {
-            authorization: localStorage.getItem("token") || ""
-          }
+            authorization: localStorage.getItem("token") || "",
+          },
         })
-        .then(res => {
+        .then((res) => {
           this.componentDidMount();
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
           console.log(err.response);
-          if(err.response.status==403){
-            window.alert(err.response.data) ;}
-       
+          if (err.response.status == 403) {
+            window.alert(err.response.data);
+          }
         });
     }
   };
@@ -137,9 +131,7 @@ class RoleTable extends Component {
     return (
       <FontAwesomeIcon
         icon={faTrash}
-        onClick={() =>
-          this.onRoleDelete(params.data.data["_id"])
-        }
+        onClick={() => this.onRoleDelete(params.data.data["_id"])}
       />
     );
   }
@@ -183,9 +175,9 @@ class RoleTable extends Component {
               defaultColDef={this.state.defaultColDef}
               columnTypes={this.state.columnTypes}
               rowData={this.state.rowData}
-              // floatingFilter={true}
+              floatingFilter={true}
               // onGridReady={this.onGridReady}
-              pagination={true}
+              // pagination={true}
               paginationPageSize={10}
               getRowHeight={this.state.getRowHeight}
             />

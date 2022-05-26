@@ -56,8 +56,8 @@ class AdminPortal extends Component {
         )}
 
         {/* <div>aminoxix</div> */}
-        {/* <Route path="/admin/Portal/table" exact component={AdminPortalTable} /> */}
-        {/* <Route path="/admin/Portal/form" exact component={() => <AdminPortalForm onPortalSubmit={this.handlePortalSubmit} />} /> */}
+        {/* <Route path="/administrator/Portal/table" exact component={AdminPortalTable} /> */}
+        {/* <Route path="/administrator/Portal/form" exact component={() => <AdminPortalForm onPortalSubmit={this.handlePortalSubmit} />} /> */}
 
         {/* <AdminPortalTable/> */}
       </React.Fragment>
@@ -83,7 +83,7 @@ class AdminPortal extends Component {
     //  let body= "CompanyID=" + event.target[0].value + "&Portal=" + event.target[1].value;
     //  let body= "aminoxix";
     axios
-      .post(process.env.REACT_APP_API_URL + "/api/admin/portal", body, {
+      .post(process.env.REACT_APP_API_URL + "/api/administrator/portal", body, {
         headers: {
           authorization: localStorage.getItem("token") || "",
         },
@@ -146,7 +146,9 @@ class AdminPortal extends Component {
     console.log("update", body);
     axios
       .put(
-        process.env.REACT_APP_API_URL + "/api/admin/portal/" + info["ID"],
+        process.env.REACT_APP_API_URL +
+          "/api/administrator/portal/" +
+          info["ID"],
         body,
         {
           headers: {

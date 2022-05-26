@@ -224,7 +224,7 @@ class PersonalInfoTable extends Component {
           Add
         </Button> */}
         {this.props.back ? (
-          <Link to="/admin/employee">
+          <Link to="/administrator/employee">
             <Button variant="primary" id="add-button">
               Back
             </Button>

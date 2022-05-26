@@ -39,7 +39,7 @@ class Employee extends Component {
       <Router>
         <Route
           exact
-          path="/hr/employee"
+          path="/admin/employee"
           render={(props) => (
             <React.Fragment>
               {/* {this.redirectF} */}
@@ -77,33 +77,33 @@ class Employee extends Component {
 
         {/* <Route
                    exact
-                   path="/hr/employee/info"
+                   path="/admin/employee/info"
                    render={props => <EmployeeInfo data={this.state.EmpInfo} onBack={this.handleBack}/>}
                  /> */}
         <Route
           exact
-          path="/hr/employee/info/personal-info"
+          path="/admin/employee/info/personal-info"
           render={(props) => (
             <PersonalInfo data={this.state.EmpInfo} back={true} />
           )}
         />
         <Route
           exact
-          path="/hr/employee/info/education"
+          path="/admin/employee/info/education"
           render={(props) => (
             <Education data={this.state.EmpInfo} back={true} />
           )}
         />
         <Route
           exact
-          path="/hr/employee/info/family-info"
+          path="/admin/employee/info/family-info"
           render={(props) => (
             <FamilyInfo data={this.state.EmpInfo} back={true} />
           )}
         />
         <Route
           exact
-          path="/hr/employee/info/work-experience"
+          path="/admin/employee/info/work-experience"
           render={(props) => (
             <WorkExperience data={this.state.EmpInfo} back={true} />
           )}
@@ -113,7 +113,7 @@ class Employee extends Component {
   }
   handleEmpInfo = (e) => {
     console.log("info", e);
-    // history.push("/hr/employee/form-edit");
+    // history.push("/admin/employee/form-edit");
     this.setState({ EmpInfo: e });
     this.setState({ EmpInfoBool: true });
   };

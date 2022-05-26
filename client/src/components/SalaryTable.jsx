@@ -7,11 +7,9 @@ import { RingLoader } from "react-spinners";
 import { css } from "@emotion/core";
 import { Button } from "react-bootstrap";
 
-
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-balham.css";
-
 
 const override = css`
   display: block;
@@ -20,18 +18,16 @@ const override = css`
   border-color: red;
 `;
 
-
 class AdminSalaryTable extends Component {
   state = {
     salaryData: [],
     loading: true,
 
-
     columnDefs: [
       {
         headerName: "Employee Name",
         field: "EmployeeName",
-        sortable: true
+        sortable: true,
         // filter: true ,
       },
       {
@@ -39,19 +35,19 @@ class AdminSalaryTable extends Component {
         field: "BasicSalary",
         sortable: true,
         type: "numberColumn",
-        filter: 'agNumberColumnFilter'
+        filter: "agNumberColumnFilter",
         // filter: true ,
       },
       {
         headerName: "Bank Name",
         field: "BankName",
-        sortable: true
+        sortable: true,
         // filter: true ,
       },
       {
         headerName: "Account No",
         field: "AccountNo",
-        sortable: true
+        sortable: true,
         // filter: true ,
       },
 
@@ -72,42 +68,35 @@ class AdminSalaryTable extends Component {
       {
         headerName: "Tax Deduction",
         field: "TaxDeduction",
-        sortable: true
+        sortable: true,
         // filter: true ,
       },
 
       {
         headerName: "",
         field: "edit",
-        filter: false ,
+        filter: false,
         width: 30,
         cellRendererFramework: this.renderEditButton.bind(this),
-      
-    
       },
       {
         headerName: "",
         field: "delete",
-        filter: false ,
+        filter: false,
         width: 30,
         cellRendererFramework: this.renderButton.bind(this),
-      
-    
       },
-      
     ],
     rowData: [],
     defaultColDef: {
       resizable: true,
       width: 200,
-      filter: "agTextColumnFilter"
+      filter: "agTextColumnFilter",
       // filter: true ,
     },
-    getRowHeight: function(params) {
+    getRowHeight: function (params) {
       return 35;
-    }
-
-
+    },
   };
   salaryObj = [];
   rowDataT = [];
@@ -116,54 +105,55 @@ class AdminSalaryTable extends Component {
     axios
       .get(process.env.REACT_APP_API_URL + "/api/salary", {
         headers: {
-          authorization: localStorage.getItem("token") || ""
-        }
+          authorization: localStorage.getItem("token") || "",
+        },
       })
-      .then(response => {
+      .then((response) => {
         this.salaryObj = response.data;
         console.log("response", response.data);
         this.setState({ salaryData: response.data });
         this.setState({ loading: false });
         this.rowDataT = [];
 
-        this.salaryObj.map(data => {
+        this.salaryObj.map((data) => {
           let temp = {
             data,
-            EmployeeName: data["FirstName"]+""+data["MiddleName"]+""+data["LastName"],
+            EmployeeName:
+              data["FirstName"] +
+              " " +
+              data["MiddleName"] +
+              " " +
+              data["LastName"],
             BasicSalary: data["salary"][0]["BasicSalary"],
             BankName: data["salary"][0]["BankName"],
-            AccountNo:data["salary"][0]["AccountNo"],
+            AccountNo: data["salary"][0]["AccountNo"],
             AccountHolderName: data["salary"][0]["AccountHolderName"],
             IFSCcode: data["salary"][0]["IFSCcode"],
-            TaxDeduction:data["salary"][0]["TaxDeduction"],
-            
+            TaxDeduction: data["salary"][0]["TaxDeduction"],
           };
-          
+
           this.rowDataT.push(temp);
         });
         this.setState({ rowData: this.rowDataT });
-
-
-
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   };
 
-  onSalaryDelete = e => {
+  onSalaryDelete = (e) => {
     console.log(e);
     if (window.confirm("Are you sure to delete this record? ") == true) {
       axios
         .delete(process.env.REACT_APP_API_URL + "/api/salary/" + e, {
           headers: {
-            authorization: localStorage.getItem("token") || ""
-          }
+            authorization: localStorage.getItem("token") || "",
+          },
         })
-        .then(res => {
+        .then((res) => {
           this.componentDidMount();
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err);
         });
     }
@@ -171,19 +161,23 @@ class AdminSalaryTable extends Component {
   componentDidMount() {
     this.loadSalaryData();
   }
-  renderButton(params){
+  renderButton(params) {
     console.log(params);
-    return <FontAwesomeIcon
-    icon={faTrash}
-    onClick={() => this.onSalaryDelete(params.data.data["_id"])}
-  />;
+    return (
+      <FontAwesomeIcon
+        icon={faTrash}
+        onClick={() => this.onSalaryDelete(params.data.data["_id"])}
+      />
+    );
   }
-  renderEditButton(params){
+  renderEditButton(params) {
     console.log(params);
-    return <FontAwesomeIcon
-    icon={faEdit}
-    onClick={() => this.props.onEditSalary(params.data.data)}
-  />;
+    return (
+      <FontAwesomeIcon
+        icon={faEdit}
+        onClick={() => this.props.onEditSalary(params.data.data)}
+      />
+    );
   }
 
   render() {
@@ -236,7 +230,6 @@ class AdminSalaryTable extends Component {
             />
           </div>
         )}
-
       </div>
     );
   }

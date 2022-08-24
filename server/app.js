@@ -1,4 +1,5 @@
-var express = require("express"),
+const express = require("express"),
+  cors = require("cors"),
   mongoose = require("mongoose"),
   autoIncrement = require("mongoose-auto-increment"),
   Joi = require("joi"),
@@ -10,6 +11,7 @@ let mongoURI = process.env.DATABASEURL;
 //seting up jwt token
 let jwtKey = process.env.JWTKEY;
 
+app.use(cors());
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");

@@ -4,7 +4,6 @@ var express = require("express"),
   Joi = require("joi"),
   app = express();
 jwt = require("jsonwebtoken");
-require("dotenv").config();
 
 //connecting to mongodb
 let mongoURI = process.env.DATABASEURL;

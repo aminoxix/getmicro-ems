@@ -2628,10 +2628,6 @@ app.get("/", (req, res) => {
   res.send("Server running successfully");
 });
 
-var port = process.env.PORT;
-if (port & process.env.IP) {
-  app.listen(port, process.env.IP, () => {
-    console.log("started");
-  });
-} else
-  app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+const port = process.env.PORT;
+
+app.listen(port, () => console.log(`Example app listening on port ${port}!`));
